@@ -8,6 +8,7 @@ __pycache__/
 .png
 .gif
 .webp
+media/movie/posters/*.webp,*.jpg,*.jpeg,*.png,*.gif
 
 # C extensions
 *.so
