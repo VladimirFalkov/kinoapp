@@ -1,0 +1,56 @@
+<!-- index.html -->
+{% extends "movie/base.html" %}
+{% load thumbnail %}
+
+{% block title %}All Films{% endblock %}
+
+{% block content %}
+<form method="get">
+    <select name="ordering">
+        <option value="year">by year</option>
+        <option value="genre">by genre</option>
+        <option value="rating">by rating</option>
+    </select>
+    <input type="submit" value="Sort now">
+</form>
+<form method='get' action="{% url 'movie:index' %}">
+    <input name="search" class="w-full py-4 px-6 border rounded-xl" type="text" value="{{ query }}"
+        placeholder="Find a film ...">
+    <button class="mt-2 py-4 px-8 text-lg bg-teal-500 text-white rounded-xl">Search</button>
+</form>
+
+
+
+
+<div class="col-span-3">
+    <div class="grid grid-cols-3 gap-3">
+
+        {% if movies %}
+        {% for movie in movies %}
+        <div>
+            <a href="{% url 'movie:movie_detail' movie.id %}">
+                <h2 class="text-3xl">{{ movie.name }}</h2>
+
+                {{ movie.description }}
+                {% thumbnail movie.poster "180x300" crop="center" as im %}
+                <div>
+                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="movie poster" />
+                </div>
+                {% endthumbnail %}
+                <div class="p-6 bg-white rounded-b-xl">
+                    <p class="text-xl">Year of Release: {{ movie.year_released }}</p>
+                    <p class="text-gray-500">Rating: {{ movie.rating }}</p>
+                </div>
+                <!--<img class="card-img-top" src="{{ movie.poster.url }}" alt="movie poster" />-->
+
+            </a>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p>No movies found.</p>
+        {% endif %}
+
+    </div>
+
+</div>
+{% endblock %}

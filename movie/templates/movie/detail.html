@@ -1,0 +1,29 @@
+{% extends 'movie/base.html' %}
+
+{% load thumbnail %}
+
+{% block title %}{{ movie.name }}{% endblock %}
+
+{% block content %}
+<div class="grid grid-cols-3 gap-6">
+    {% thumbnail movie.poster "200x400" crop="center" as im %}
+    <div class="col-span-2"><img src="{{ movie.poster.url }}" width="{{ im.width }}" height="{{ im.height }}"
+            alt="movie poster" /></div>
+    {% endthumbnail %}
+    <div class="col-span-2 p-6 rounded-xl bg-gray-100">
+        <h1 class="mb-6 text-3xl ">{{ movie.name }}</h1>
+        <p class="text-gray-700">{{ movie.year_released }}</p>
+
+        {% if movie.description %}
+        <strong class="text-gray-700">Description:</strong><br>
+        <p class="text-gray-500">{{ movie.description }}</p>
+        {% endif %}
+
+        <p class="text-gray-700">{{ movie.rating }}</p>
+    </div>
+
+</div>
+<a href="{% url 'movie:update_movie' movie.id %}"
+    class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl">Update</a>
+
+{% endblock %}
